@@ -22,7 +22,7 @@ export default {
       type: String,
       default: 'ul'
     },
-    rememberPage: {
+    remember: {
       type: Boolean,
       default: false
     }
@@ -64,7 +64,7 @@ export default {
     },
     list () {
       // On list change, refresh the paginated list
-      if (!this.rememberPage) this.currentPage = 0
+      if (!this.remember) this.currentPage = 0
       this.paginateList()
     },
     per () {
