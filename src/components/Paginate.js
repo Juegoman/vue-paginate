@@ -21,6 +21,10 @@ export default {
     tag: {
       type: String,
       default: 'ul'
+    },
+    rememberPage: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -60,7 +64,7 @@ export default {
     },
     list () {
       // On list change, refresh the paginated list
-      this.currentPage = 0
+      if (!this.rememberPage) this.currentPage = 0
       this.paginateList()
     },
     per () {

@@ -1,3 +1,4 @@
+/* global it, expect, describe, beforeEach */
 import Vue from 'vue/dist/vue'
 import Paginate from '../src/components/Paginate'
 
@@ -9,7 +10,7 @@ const LANGS = [
 
 describe('Paginate.vue', () => {
   let vm
-  
+
   beforeEach(() => {
     vm = new Vue({
       template: `
@@ -55,7 +56,6 @@ describe('Paginate.vue', () => {
       expect(vm.paginate.langs.list).to.not.include.members(['JavaScript', 'PHP'])
       done()
     })
-
   })
 
   it('allows `per` prop to be dynamic', (done) => {
@@ -184,6 +184,36 @@ describe('Paginate.vue', () => {
       vm.paginate.langs.page = 1
       Vue.nextTick(() => {
         expect(paginator.pageItemsCount).to.equal('3-4 of 8')
+        done()
+      })
+    })
+  })
+
+  it('remembers page when remember is set', done => {
+    vm = new Vue({
+      template: `
+      <div>
+        <paginate ref="paginate"
+          name="langs"
+          :list="langs"
+          :per="2"
+          :remember="true"
+          class="test-paginate"
+        ></paginate>
+      </div>`,
+      data: {
+        langs: LANGS,
+        paginate: {langs: { list: [], page: 0 }}
+      },
+      components: { Paginate }
+    }).$mount()
+    const paginator = vm.$refs.paginate
+    vm.paginate.langs.page = 1
+    Vue.nextTick(() => {
+      expect(paginator.currentPage).to.equal(1)
+      vm.langs.push('C++')
+      Vue.nextTick(() => {
+        expect(paginator.currentPage).to.equal(1)
         done()
       })
     })
