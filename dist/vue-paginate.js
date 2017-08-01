@@ -1,5 +1,5 @@
 /**
- * vue-paginate v3.5.0
+ * vue-paginate v3.5.1
  * (c) 2017 Taha Shashtari
  * @license MIT
  */
@@ -65,6 +65,10 @@
       tag: {
         type: String,
         default: 'ul'
+      },
+      rememberPage: {
+        type: Boolean,
+        default: false
       }
     },
     data: function data () {
@@ -104,7 +108,7 @@
       },
       list: function list () {
         // On list change, refresh the paginated list
-        this.currentPage = 0
+        if (!this.rememberPage) { this.currentPage = 0 }
         this.paginateList()
       },
       per: function per () {
